@@ -1,4 +1,7 @@
-
+"""
+Código feito em sala de aula. Você pode usá-lo como bem entender.
+Mas será que ele está correto mesmo?
+"""
 class No:
     def __init__(self, dado, prox=None, ant=None):
         self._dado = dado
@@ -76,38 +79,26 @@ class ListaDuplamenteEncadeada:
         return s
 
 # leitura da entrada
-cidades, qtddevoos = list(map(int, input().split()))
-vertices = [[] for i in range(cidades)]
+N, origem, destino = list(map(int, input().split()))
+vertices = [[] for i in range(N)]
 # construção do grafo
-for i in range(qtddevoos):
+for i in range(N):
         u, v, p = list(map(int, input().split()))
         vertices[u-1].append((v-1, p))
         vertices[v-1].append((u-1, p))
   
 #inicializando o dijkstra
-def dijkstra(vertices,origem):
-    Q = ListaDuplamenteEncadeada()
-    dist = [float('Inf')]*cidades
-    for u in range(cidades):
-        Q.inserirNoInicio(u)
-    dist[origem] = 0
-    # laço principal
-    while not Q.isVazia():
-        u = Q.removerOMenor(dist)
-        for v, p in vertices[u]:
-            pesoNovoCaminho = dist[u] + p
-            if pesoNovoCaminho < dist[v]:
-                dist[v] = pesoNovoCaminho
-
-    return dist
-resultado=[0 for i in range(cidades)]
-for k in range(cidades): 
-        d = dijkstra(vertices, k)
-        for i in range(len(resultado)):
-            if resultado[i]<d[i]:
-                resultado[i]=d[i]
-
-print(min(resultado))
-
-
-# ele printa as distâncias da origem até qualquer uma das cidades
+Q = ListaDuplamenteEncadeada()
+dist = [float('Inf')]*N
+for u in range(N):
+    Q.inserirNoInicio(u)
+dist[origem-1] = 0
+# laço principal
+while not Q.isVazia():
+    u = Q.removerOMenor(dist)
+    for v, p in vertices[u]:
+        pesoNovoCaminho = dist[u] + p
+        if pesoNovoCaminho < dist[v]:
+            dist[v] = pesoNovoCaminho
+print(dist)
+# ele printa as distâncias da origem até qualquer uma das 
