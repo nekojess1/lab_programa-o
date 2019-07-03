@@ -76,26 +76,38 @@ class ListaDuplamenteEncadeada:
         return s
 
 # leitura da entrada
-N, origem, destino = list(map(int, input().split()))
-vertices = [[] for i in range(N)]
+cidades, qtddevoos = list(map(int, input().split()))
+vertices = [[] for i in range(cidades)]
 # construção do grafo
-for i in range(N):
+for i in range(qtddevoos):
         u, v, p = list(map(int, input().split()))
         vertices[u-1].append((v-1, p))
         vertices[v-1].append((u-1, p))
   
 #inicializando o dijkstra
-Q = ListaDuplamenteEncadeada()
-dist = [float('Inf')]*N
-for u in range(N):
-    Q.inserirNoInicio(u)
-dist[origem-1] = 0
-# laço principal
-while not Q.isVazia():
-    u = Q.removerOMenor(dist)
-    for v, p in vertices[u]:
-        pesoNovoCaminho = dist[u] + p
-        if pesoNovoCaminho < dist[v]:
-            dist[v] = pesoNovoCaminho
-print(dist)
+def dijkstra(vertices,origem):
+    Q = ListaDuplamenteEncadeada()
+    dist = [float('Inf')]*cidades
+    for u in range(cidades):
+        Q.inserirNoInicio(u)
+    dist[origem] = 0
+    # laço principal
+    while not Q.isVazia():
+        u = Q.removerOMenor(dist)
+        for v, p in vertices[u]:
+            pesoNovoCaminho = dist[u] + p
+            if pesoNovoCaminho < dist[v]:
+                dist[v] = pesoNovoCaminho
+
+    return dist
+resultado=[0 for i in range(cidades)]
+for k in range(cidades): 
+        d = dijkstra(vertices, k)
+        for i in range(len(resultado)):
+            if resultado[i]<d[i]:
+                resultado[i]=d[i]
+
+print(min(resultado))
+
+
 # ele printa as distâncias da origem até qualquer uma das cidades
